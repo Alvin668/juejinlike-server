@@ -302,7 +302,8 @@ router.post('/recommend_follow_feed', async (ctx, next) => {
 })
 router.post('/save_digg', async (ctx, next) => {
     const {
-        itemid,item_type
+        itemid,
+        item_type
     } = ctx.request.body;
     const {
         data
@@ -323,7 +324,8 @@ router.post('/save_digg', async (ctx, next) => {
 })
 router.post('/cancel_digg', async (ctx, next) => {
     const {
-        itemid,item_type
+        itemid,
+        item_type
     } = ctx.request.body;
     const {
         data
@@ -802,6 +804,104 @@ router.post('/list_by_cate_cursor', async (ctx, next) => {
             cate_id,
             cursor,
             limit
+        }
+    });
+    ctx.body = data;
+    next()
+})
+
+router.post('/list_by_search_cursor', async (ctx, next) => {
+    // https://api.juejin.cn/tag_api/v1/topic/list_by_search_cursor?aid=2608&uuid=6901862661417911816
+    const {
+        cursor,
+        keyword,
+        limit
+    } = ctx.request.body;
+    const {
+        data
+    } = await axios({
+        url: `https://api.juejin.cn/tag_api/v1/topic/list_by_search_cursor?aid=${aid}&uuid=${uuid}`,
+        method: 'post',
+        headers: {
+            cookie: MY_COOKIE
+        },
+        data: {
+            cursor,
+            keyword,
+            limit
+        }
+    });
+    ctx.body = data;
+    next()
+})
+router.post('/query_topic_detail', async (ctx, next) => {
+    // https://api.juejin.cn/tag_api/v1/query_topic_detail?aid=2608&uuid=6901862661417911816
+    const {
+        topic_id
+    } = ctx.request.body;
+    const {
+        data
+    } = await axios({
+        url: `https://api.juejin.cn/tag_api/v1/query_topic_detail?aid=${aid}&uuid=${uuid}`,
+        method: 'post',
+        headers: {
+            cookie: MY_COOKIE
+        },
+        data: {
+            topic_id
+        }
+    });
+    ctx.body = data;
+    next()
+})
+
+router.post('/topic', async (ctx, next) => {
+    // https://api.juejin.cn/recommend_api/v1/short_msg/topic?aid=2608&uuid=6901862661417911816
+    const {
+        cursor,
+        sort_type,
+        topic_id
+    } = ctx.request.body;
+    const {
+        data
+    } = await axios({
+        url: `https://api.juejin.cn/recommend_api/v1/short_msg/topic?aid=${aid}&uuid=${uuid}`,
+        method: 'post',
+        headers: {
+            cookie: MY_COOKIE
+        },
+        data: {
+            cursor,
+            id_type: 4,
+            limit: 30,
+            sort_type,
+            topic_id
+        }
+    });
+    ctx.body = data;
+    next()
+})
+
+
+router.post('/follower_list', async (ctx, next) => {
+    // https://api.juejin.cn/interact_api/v1/follow/follower_list?aid=2608&uuid=6901862661417911816
+    const {
+        cursor,
+        topic_id
+    } = ctx.request.body;
+    const {
+        data
+    } = await axios({
+        url: `https://api.juejin.cn/interact_api/v1/follow/follower_list?aid=${aid}&uuid=${uuid}`,
+        method: 'post',
+        headers: {
+            cookie: MY_COOKIE
+        },
+        data: {
+            cursor,
+            id_type: 11,
+            item_id: topic_id,
+            limit: 30
         }
     });
     ctx.body = data;
