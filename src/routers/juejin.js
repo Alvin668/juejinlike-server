@@ -908,4 +908,26 @@ router.post('/follower_list', async (ctx, next) => {
     next()
 })
 
+
+router.post('/query_adverts', async (ctx, next) => {
+    // https://api.juejin.cn/content_api/v1/advert/query_adverts?aid=2608&uuid=6901862661417911816
+    const {
+        data
+    } = await axios({
+        url: `https://api.juejin.cn/content_api/v1/advert/query_adverts?aid=${aid}&uuid=${uuid}`,
+        method: 'post',
+        headers: {
+            cookie: MY_COOKIE
+        },
+        data: {
+            layout: 1,
+            platform: 2608,
+            position: 100
+        }
+    });
+    ctx.body = data;
+    next()
+})
+
+
 module.exports = router;
