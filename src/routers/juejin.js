@@ -929,5 +929,27 @@ router.post('/query_adverts', async (ctx, next) => {
     next()
 })
 
+router.post('/list_by_hot', async (ctx, next) => {
+    // https://api.juejin.cn/tag_api/v1/theme/list_by_hot?aid=2608&uuid=6901862661417911816
+    const {
+        cursor
+    } = ctx.request.body;
+    const {
+        data
+    } = await axios({
+        url: `https://api.juejin.cn/tag_api/v1/theme/list_by_hot?aid=${aid}&uuid=${uuid}`,
+        method: 'post',
+        headers: {
+            cookie: MY_COOKIE
+        },
+        data: {
+            cursor,
+            keyword: "",
+            limit: 15,
+        }
+    });
+    ctx.body = data;
+    next()
+})
 
 module.exports = router;
