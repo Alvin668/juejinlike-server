@@ -952,4 +952,40 @@ router.post('/list_by_hot', async (ctx, next) => {
     next()
 })
 
+router.get('/citys', async (ctx, next) => {
+    const {
+        data
+    } = await axios.get(`https://api.juejin.cn/event_api/v1/event/citys?aid=${aid}&uuid=${uuid}`, {
+        headers: {
+            cookie: MY_COOKIE
+        }
+    });
+    ctx.body = data;
+    next()
+})
+
+router.post('/event_list', async (ctx, next) => {
+    // https://api.juejin.cn/event_api/v1/event/event_list?aid=2608&uuid=6901862661417911816
+    const {
+        cursor,
+        city
+    } = ctx.request.body;
+    const {
+        data
+    } = await axios({
+        url: `https://api.juejin.cn/event_api/v1/event/event_list?aid=${aid}&uuid=${uuid}`,
+        method: 'post',
+        headers: {
+            cookie: MY_COOKIE
+        },
+        data: {
+            aid: 2608,
+            city,
+            count: 20,
+            cursor
+        }
+    });
+    ctx.body = data;
+    next()
+})
 module.exports = router;
