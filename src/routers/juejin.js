@@ -988,4 +988,30 @@ router.post('/event_list', async (ctx, next) => {
     ctx.body = data;
     next()
 })
+
+router.post('/listbycategory', async (ctx, next) => {
+    // https://api.juejin.cn/booklet_api/v1/booklet/listbycategory?aid=2608&uuid=6901862661417911816
+    const {
+        cursor
+    } = ctx.request.body;
+    const {
+        data
+    } = await axios({
+        url: `https://api.juejin.cn/booklet_api/v1/booklet/listbycategory?aid=${aid}&uuid=${uuid}`,
+        method: 'post',
+        headers: {
+            cookie: MY_COOKIE
+        },
+        data: {
+            category_id: "0",
+            cursor,
+            limit: 20,
+            sort: 10
+        }
+    });
+    ctx.body = data;
+    next()
+})
+
+
 module.exports = router;
