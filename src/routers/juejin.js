@@ -1014,4 +1014,40 @@ router.post('/listbycategory', async (ctx, next) => {
 })
 
 
+router.get('/get_user_info', async (ctx, next) => {
+    // 
+    const {
+        data
+    } = await axios.get(`https://api.juejin.cn/user_api/v1/user/get?aid=2608&uuid=6901862661417911816&user_id=2849562994940046&not_self=1&need_badge=1`, {
+        headers: {
+            cookie: MY_COOKIE
+        }
+    });
+    ctx.body = data;
+    next()
+})
+
+
+router.post('/card', async (ctx, next) => {
+    // https://api.juejin.cn/content_api/v1/author_center/data/card?aid=2608&uuid=6901862661417911816
+    const {
+        cursor
+    } = ctx.request.body;
+    const {
+        data
+    } = await axios({
+        url: `https://api.juejin.cn/content_api/v1/author_center/data/card?aid=${aid}&uuid=${uuid}`,
+        method: 'post',
+        headers: {
+            cookie: MY_COOKIE
+        },
+        data: {
+            user_id: "2849562994940046",
+            datas: ["all_follower", "all_article_display", "all_article_view", "all_article_digg", "all_article_comment", "all_article_collect"]
+        }
+    });
+    ctx.body = data;
+    next()
+})
+
 module.exports = router;
