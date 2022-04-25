@@ -1050,4 +1050,24 @@ router.post('/card', async (ctx, next) => {
     next()
 })
 
+router.post('/badgelist', async (ctx, next) => {
+    // https://api.juejin.cn/user_api/v1/badge/list?aid=2608&uuid=6901862661417911816
+    const {
+        cursor
+    } = ctx.request.body;
+    const {
+        data
+    } = await axios({
+        url: `https://api.juejin.cn/user_api/v1/badge/list?aid=${aid}&uuid=${uuid}`,
+        method: 'post',
+        headers: {
+            cookie: MY_COOKIE
+        },
+        data: {
+            user_id: "2849562994940046",
+        }
+    });
+    ctx.body = data;
+    next()
+})
 module.exports = router;
