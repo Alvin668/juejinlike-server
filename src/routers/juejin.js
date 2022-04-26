@@ -1031,7 +1031,7 @@ router.get('/get_user_info', async (ctx, next) => {
 router.post('/card', async (ctx, next) => {
     // https://api.juejin.cn/content_api/v1/author_center/data/card?aid=2608&uuid=6901862661417911816
     const {
-        cursor
+        datas
     } = ctx.request.body;
     const {
         data
@@ -1043,7 +1043,7 @@ router.post('/card', async (ctx, next) => {
         },
         data: {
             user_id: "2849562994940046",
-            datas: ["all_follower", "all_article_display", "all_article_view", "all_article_digg", "all_article_comment", "all_article_collect"]
+            datas
         }
     });
     ctx.body = data;
@@ -1065,6 +1065,64 @@ router.post('/badgelist', async (ctx, next) => {
         },
         data: {
             user_id: "2849562994940046",
+        }
+    });
+    ctx.body = data;
+    next()
+})
+
+router.post('/centercount', async (ctx, next) => {
+    // https://api.juejin.cn/content_api/v1/author_center/count?aid=2608&uuid=6901862661417911816
+    const {
+        cursor
+    } = ctx.request.body;
+    const {
+        data
+    } = await axios({
+        url: `https://api.juejin.cn/content_api/v1/author_center/count?aid=${aid}&uuid=${uuid}`,
+        method: 'post',
+        headers: {
+            cookie: MY_COOKIE
+        },
+        data: {
+            id_types: [2, 3, 4, 24]
+        }
+    });
+    ctx.body = data;
+    next()
+})
+
+router.post('/trend', async (ctx, next) => {
+    // https: //api.juejin.cn/content_api/v1/author_center/data/trend?aid=2608&uuid=6901862661417911816
+    const {
+        cursor
+    } = ctx.request.body;
+    const {
+        data
+    } = await axios({
+        url: `https://api.juejin.cn/content_api/v1/author_center/data/trend?aid=${aid}&uuid=${uuid}`,
+        method: 'post',
+        headers: {
+            cookie: MY_COOKIE
+        },
+        data: {
+            date_range: 1,
+            item_id: "2849562994940046",
+            item_type: 1,
+            datas: ["all_follower", "incr_active_follower", "incr_do_follower", "incr_undo_follower", "incr_follower"]
+        }
+    });
+    ctx.body = data;
+    next()
+})
+
+router.get('/banner_list', async (ctx, next) => {
+    // 
+    const {
+        data
+    } = await axios.get(`https://api.juejin.cn/event_api/v1/event/banner_list?aid=2608&uuid=6901862661417911816`, {
+        headers: {
+            cookie: MY_COOKIE
         }
     });
     ctx.body = data;
