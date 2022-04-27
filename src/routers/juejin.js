@@ -1128,4 +1128,18 @@ router.get('/banner_list', async (ctx, next) => {
     ctx.body = data;
     next()
 })
+
+
+router.get('/dynamic', async (ctx, next) => {
+    // 
+    const {
+        data
+    } = await axios.get(`https://api.juejin.cn/user_api/v1/user/dynamic?aid=2608&uuid=6901862661417911816&user_id=2849562994940046&cursor=0`, {
+        headers: {
+            cookie: MY_COOKIE
+        }
+    });
+    ctx.body = data;
+    next()
+})
 module.exports = router;
